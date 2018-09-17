@@ -22,15 +22,14 @@
             <span class="post-category"><a href="#">{{ article_detail.category }}</a></span>
             <span class="post-date"><a href="#"><time class="entry-date"
                                                       datetime="2012-11-09T23:15:57+00:00">{{ article_detail.release_date }}</time></a></span>
-            <span class="post-author"><a>{{ article_detail.author }}</a></span>
+            <span class="post-author">{{ article_detail.author }}</span>
             <span class="comments-link"><a href="#"><i class="far fa-comments"></i>&nbsp;{{ article_detail.view }}</a></span>
-            <span class="views-count"><a><i class="far fa-eye"></i>&nbsp;{{ article_detail.view }}</a></span>
+            <span class="views-count"><i class="far fa-eye"></i>&nbsp;{{ article_detail.view }}</span>
         </div>
     </header>
     <div class="entry-content clearfix">
         <p class="main-content">{{ article_detail.content|safe }}</p>
-        <p>最后修改于:</p>
-        <p class="modify-date">{{ article_detail.modify_date }}</p>
+        <p class="modify-date">最后修改于:&nbsp;{{ article_detail.modify_date }}</p>
     </div>
 </article>
 </main>

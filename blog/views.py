@@ -4,7 +4,7 @@ from django.views import generic
 import markdown
 import time
 
-from blog.models import Article, Tags, KeyWord, Category
+from blog.models import Article, Tags, KeyWord, Category, About
 
 
 class IndexView(generic.ListView):
@@ -15,13 +15,6 @@ class IndexView(generic.ListView):
     template_name = 'blog/index.html'
     context_object_name = 'article_list'
     paginate_by = 8
-
-
-def archive(request):
-    return render(request, 'blog/archive.html')
-
-def about(request):
-    return render(request, 'blog/about.html')
 
 
 class ArticleView(generic.DetailView):
@@ -107,3 +100,45 @@ class TagsView(generic.ListView):
         context['tag_art'] = tags
         context['tag_name'] = tag
         return context
+
+
+class ArchiveView(generic.ListView):
+    """
+    归档视图
+    """
+    model = Article
+    template_name = 'blog/archive.html'
+    context_object_name = 'articles'
+
+
+class DateArticleView(generic.ListView):
+    model = Article
+    template_name = 'blog/date_articles.html'
+    context_object_name = 'date_articles'
+
+    def get_context_data(self, **kwargs):
+        context = super(DateArticleView, self).get_context_data(**kwargs)
+        month = self.kwargs.get('month')
+        year = self.kwargs.get('year')
+        articles = self.model.objects.filter(release_date__month=month, release_date__year=year)
+        context['archive_title'] = '归档'
+        context['archive_year'] = year
+        context['archive_month'] = month
+        context['archive_articles'] = articles
+        return context
+        
+
+class AboutMeView(generic.ListView):
+    model = About
+    template_name = 'blog/about.html'
+    context_object_name = 'about_me'
+
+    def get_object(self):
+        obj = super(AboutMeView, self).get_object()
+        md = markdown.Markdown(extensions=[
+            'markdown.extensions.extra',
+            'markdown.extensions.codehilite',
+            ])
+        obj.content = md.convert(obj.content)
+        return obj
+

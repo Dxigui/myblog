@@ -1,5 +1,5 @@
 from django.contrib import admin
-from blog.models import Tags, Category, KeyWord, Article, FriendLink
+from blog.models import Tags, Category, KeyWord, Article, FriendLink, About
 
 
 @admin.register(Article)
@@ -58,3 +58,8 @@ class FirendLinkAdmin(admin.ModelAdmin):
     search_fields = ('id', 'name')
     ordring = ('-create_date',)
     list_editable = ('name',)
+
+
+@admin.register(About)
+class AboutAdmin(admin.ModelAdmin):
+    list_display = ('id', 'content')

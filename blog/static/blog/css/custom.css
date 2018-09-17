@@ -52,7 +52,7 @@ a {
 
 a:hover, a:focus {
     text-decoration: none;
-    color: #000;
+    color: #007bff;
 }
 
 ::selection {
@@ -258,6 +258,10 @@ img {
     color: #DDDDDD;
     font-size: 13px;
     margin-bottom: 30px;
+}
+
+.post-author, .views-count {
+    color: #333;
 }
 
 .entry-content {
@@ -995,8 +999,18 @@ img {
  * 13.0 - Pagination
  */
 .pagination-simple {
-    padding-left: 30px;
+    padding: 0 30px;
+    margin-top: 25px;
     font-size: 16px;
+    text-align: center;
+}
+
+.previous {
+    float: left;
+}
+
+.next {
+    float: right;
 }
 
 .pagination ul {

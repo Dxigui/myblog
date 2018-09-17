@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils.html import format_html
+from django.utils.html import format_html, strip_tags
 from django.urls import reverse
 import markdown
 
@@ -58,7 +58,7 @@ class Article(models.Model):
     发布的文章
     """
     title = models.CharField(max_length=30, verbose_name='文章标题')
-    describe = models.CharField(max_length=240, verbose_name='文章摘要')
+    describe = models.CharField(max_length=240,blank=True, null=True, verbose_name='文章摘要')
     content = models.TextField(verbose_name='文章内容')
     author = models.CharField(max_length=20, verbose_name='作者')
     release_date = models.DateField(verbose_name='发布时间')
@@ -84,6 +84,11 @@ class Article(models.Model):
     def get_absolute_url(self):
         return reverse('detail', kwargs={'pk': self.pk})
 
+    def get_archive_url(self):
+        return reverse('one_archive', kwargs={'year': self.release_date.year,
+                                              'month': self.release_date.month
+                                              })
+
     def delete_status(self):
         # 设置是否删除状态的颜色
         if self.is_delete:
@@ -105,6 +110,17 @@ class Article(models.Model):
             'markdown.extensions.codehilite',
             ])
             
+    def save(self, *args, **kwargs):
+        """
+        自动提取摘要
+        """
+        if not self.describe:
+            md = markdown.Markdown(extensions=[
+                'markdown.extensions.extra',
+                'markdown.extensions.codehilite',
+                ])
+            self.describe = strip_tags(md.convert(self.content))[:60]
+        super(Article, self).save(*args, **kwargs)
         
 
 class FriendLink(models.Model):
@@ -128,3 +144,23 @@ class FriendLink(models.Model):
         return self.name
 
 
+class About(models.Model):
+    """
+    关于我
+    """
+    content = models.TextField(verbose_name='关于我')
+
+    class Meta:
+        verbose_name = '关于我'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.content
+
+    def save(self, *args, **kwargs):
+        md = markdown.Markdown(extensions=[
+            'markdown.extensions.extra',
+            'markdown.extensions.codehilite',
+            ])
+        self.content = md.convert(self.content)
+        super(About, self).save(*args, **kwargs)

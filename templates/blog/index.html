@@ -19,51 +19,22 @@
 {% block content %}
 <main class="col-md-8">
 {% for article in article_list %}
-<article class="post post-1">
-    <header class="entry-header">
-        <h1 class="entry-title">
-            <a href="{% url 'detail' pk=article.id %}">{{ article.title }}</a>
-        </h1>
-        <div class="entry-meta">
-            <span class="post-category"><a href="#">{{ article.category }}</a></span>
-            <span class="post-date"><a href="#"><time class="entry-date"
-                                                      datetime="2012-11-09T23:15:57+00:00">{{ article.release_date }}</time></a></span>
-            <span class="post-author"><a>{{ article.author }}</a></span>
-            <span class="comments-link"><a href="#"><i class="far fa-comments"></i>&nbsp;{{ article.view }}</a></span>
-            <span class="views-count"><a><i class="far fa-eye"></i>&nbsp;{{ article.view }}</a></span>
-        </div>
-    </header>
-    <div class="entry-content clearfix">
-        <p class="main-content">{{ article.describe }}...</p>
-        <div class="read-more cl-effect-14">
-            <a href="{% url 'detail' pk=article.id %}" class="more-link">继续阅读 <span class="meta-nav">→</span></a>
-        </div>
-    </div>
-</article>
+{% include 'tags_templates/show_article.html' %}
 {% empty %}
     <div class="no-post"> 暂时还没有发布文章 </div>
 {% endfor %}
 
+{% if is_paginated %}
 <div class="pagination-simple">
-    <a href="#">上一页</a>
-    <span class="current">第 6 页 / 共 11 页</span>
-    <a href="#">下一页</a>
+    {% if page_obj.has_previous %}
+    <a class="previous" href="?page={{ page_obj.previous_page_number }}">上一页</a>
+    {% endif %}
+    <span class="current">第 {{ page_obj.number }} 页 / 共 {{ paginator.num_pages }} 页</span>
+    {% if page_obj.has_next %}
+    <a class="next" href="?page={{ page_obj.next_page_number }}">下一页</a>
+    {% endif %}
 </div>
-<!--
-<div class="pagination">
-    <ul>
-        <li><a href="">1</a></li>
-        <li><a href="">...</a></li>
-        <li><a href="">4</a></li>
-        <li><a href="">5</a></li>
-        <li class="current"><a href="">6</a></li>
-        <li><a href="">7</a></li>
-        <li><a href="">8</a></li>
-        <li><a href="">...</a></li>
-        <li><a href="">11</a></li>
-    </ul>
-</div>
--->
+{% endif %}
 </main>
 
 <!-- sidebar -->

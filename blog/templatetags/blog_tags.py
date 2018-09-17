@@ -2,7 +2,7 @@ from django import template
 from django.db.models.aggregates import Count
 from django.shortcuts import get_list_or_404
 
-from blog.models import Article, Tags, Category
+from blog.models import Article, Tags, Category, About
 
 register = template.Library()
 
@@ -39,10 +39,14 @@ def get_categorys():
 @register.simple_tag
 def get_archives():
     """
-    归档
+    按月归档
     """
     return Article.objects.dates('release_date', 'month', order='DESC')
 
 @register.simple_tag
 def category_article(cate):
+    """
+    获取某分类/标签下的所有文章
+    """
     return Article.objects.filter(category=cate)
+
