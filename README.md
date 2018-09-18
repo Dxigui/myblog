@@ -1,10 +1,7 @@
 ## 注意
 > 此项目在提交时忽略了 settings.py 文件和 migrations 文件夹中部分信息  
-
 > migrations 文件夹中的是数据库迁移文件  
-
 > settings.py 文件替换成 online_settings.py  
-
 > 其中 SECRET_KEY/DATABASES/DISQUS_API_KEY 需要自行配置  
 
 ## 关于本站  
