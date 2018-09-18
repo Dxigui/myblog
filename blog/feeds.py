@@ -4,6 +4,9 @@ from django.conf import settings
 from .models import Article
 
 class AllArticleRssFeed(Feed):
+    """
+    生成 RSS 订阅
+    """
     title = settings.SITE_AND_TITLE
     link = settings.SITE_LINK
     description = settings.SITE_DESCRIPTION
