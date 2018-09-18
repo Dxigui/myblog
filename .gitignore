@@ -58,8 +58,8 @@ local_settings.py
 db.sqlite3
 settings.py
 whoosh_index/
-#migrations/
-#!migrations/__init__.py
+migrations/
+!migrations/__init__.py
 
 # Flask stuff:
 instance/
