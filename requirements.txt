@@ -1,7 +1,7 @@
 asn1crypto==0.24.0
 cffi==1.11.5
 cryptography==2.3.1
-Django==1.11
+Django==1.11.15
 django-disqus==0.5
 django-haystack==2.7.0
 idna==2.7
